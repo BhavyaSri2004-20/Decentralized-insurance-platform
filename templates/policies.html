@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Available Policies - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-shield-alt text-primary"></i> Available Insurance Policies
+                    </h2>
+                    <p class="text-muted mb-0">Choose the perfect coverage for your needs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if policies %}
+    <div class="row g-4">
+        {% for policy in policies %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-file-contract"></i> {{ policy[2] }}
+                    </h5>
+                    <small>by {{ policy[7] }}</small>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text">{{ policy[3] }}</p>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h5 text-success fw-bold">₹{{ "%.2f"|format(policy[4]) }}</span>
+                            <small class="text-muted">Premium Amount</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <i class="fas fa-list"></i> Required Documents:
+                            </small>
+                            <p class="small mb-0">{{ policy[5] }}</p>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseModal{{ policy[0] }}">
+                                <i class="fas fa-shopping-cart"></i> Purchase Policy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Modal -->
+        <div class="modal fade" id="purchaseModal{{ policy[0] }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-shopping-cart"></i> Purchase {{ policy[2] }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Policy Details:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Name:</strong> {{ policy[2] }}</li>
+                            <li><strong>Description:</strong> {{ policy[3] }}</li>
+                            <li><strong>Cost:</strong> ₹{{ "%.2f"|format(policy[4]) }}</li>
+                        </ul>
+                        
+                        <hr>
+                        
+                        <h6>Payment Information:</h6>
+                        <form method="POST" action="{{ url_for('purchase_policy', policy_id=policy[0]) }}">
+                            <div class="mb-3">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-select" name="payment_method" required>
+                                    <option value="credit_card">Credit Card</option>
+                                    <option value="debit_card">Debit Card</option>
+                                    <option value="net_banking">Net Banking</option>
+                                    <option value="upi">UPI</option>
+                                </select>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-credit-card"></i> Pay ₹{{ "%.2f"|format(policy[4]) }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Policies Available</h4>
+                    <p class="text-muted">Policy providers haven't added any policies yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hover-card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

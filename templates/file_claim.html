@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}File Claim - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-file-medical text-danger"></i> File Insurance Claim
+                    </h2>
+                    <p class="text-muted mb-0">Submit your claim with all required documents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-upload"></i> Claim Submission Form
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="claim_amount" class="form-label">
+                                <i class="fas fa-money-bill-wave"></i> Claim Amount (₹) *
+                            </label>
+                            <input type="number" class="form-control" id="claim_amount" name="claim_amount" 
+                                   step="0.01" min="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="accident_picture" class="form-label">
+                                <i class="fas fa-camera"></i> Accident Pictures
+                            </label>
+                            <input type="file" class="form-control" id="accident_picture" name="accident_picture" 
+                                   accept=".jpg,.jpeg,.png">
+                            <small class="form-text text-muted">Upload photos of the accident (JPG, PNG)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="policy_document" class="form-label">
+                                <i class="fas fa-file-contract"></i> Policy Document
+                            </label>
+                            <input type="file" class="form-control" id="policy_document" name="policy_document" 
+                                   accept=".pdf,.doc,.docx">
+                            <small class="form-text text-muted">Upload your policy document (PDF, DOC, DOCX)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="adhar" class="form-label">
+                                <i class="fas fa-id-card"></i> Aadhar Card
+                            </label>
+                            <input type="file" class="form-control" id="adhar" name="adhar" 
+                                   accept=".pdf,.jpg,.jpeg,.png">
+                            <small class="form-text text-muted">Upload your Aadhar card (PDF, JPG, PNG)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="vehicle_rc" class="form-label">
+                                <i class="fas fa-car"></i> Vehicle RC (Registration Certificate)
+                            </label>
+                            <input type="file" class="form-control" id="vehicle_rc" name="vehicle_rc" 
+                                   accept=".pdf,.jpg,.jpeg,.png">
+                            <small class="form-text text-muted">Upload your vehicle registration certificate</small>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="fas fa-paper-plane"></i> Submit Claim
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

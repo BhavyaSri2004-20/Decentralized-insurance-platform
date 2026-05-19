@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Voting Member Dashboard - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="card-title mb-2">
+                                <i class="fas fa-vote-yea"></i> Voting Member Dashboard
+                            </h2>
+                            <p class="card-text mb-0">
+                                Review claims and help the community make fair decisions
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <i class="fas fa-balance-scale fa-5x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4 class="fw-bold mb-3">
+                <i class="fas fa-bolt"></i> Quick Actions
+            </h4>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-file-medical text-info fa-3x mb-3"></i>
+                    <h5 class="card-title">Review Claims</h5>
+                    <p class="card-text">Review pending claims and cast your vote to help the community make fair decisions.</p>
+                    <a href="{{ url_for('view_claims') }}" class="btn btn-info">
+                        <i class="fas fa-search"></i> View Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-history"></i> Your Voting Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted text-center py-4">
+                        <i class="fas fa-clock fa-2x mb-3"></i><br>
+                        No voting activity yet.<br>
+                        <small>Claims will appear here once users file them!</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hover-card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

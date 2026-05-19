@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}My Claims - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-file-medical text-danger"></i> My Insurance Claims
+                    </h2>
+                    <p class="text-muted mb-0">Track the status of your submitted claims</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if claims %}
+    <div class="row g-4">
+        {% for claim in claims %}
+        <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header 
+                    {% if claim[6] == 'pending' %}bg-warning text-dark
+                    {% elif claim[6] == 'approved' %}bg-success text-white
+                    {% else %}bg-danger text-white{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-file-medical"></i> Claim #{{ claim[0] }}
+                        </h5>
+                        <span class="badge bg-light text-dark">{{ claim[6].title() }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h6>{{ claim[7] }}</h6>
+                    <p class="text-muted">Claim Amount: <strong>₹{{ "%.2f"|format(claim[2]) }}</strong></p>
+                    
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <small class="text-muted">Claim Date</small>
+                            <p class="mb-0">{{ claim[8] }}</p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Policy</small>
+                            <p class="mb-0">{{ claim[7] }}</p>
+                        </div>
+                    </div>
+
+                    {% if claim[6] == 'approved' and claim[9] %}
+                    <div class="mb-3">
+                        <small class="text-muted">Blockchain Hash:</small>
+                        <p class="small font-monospace blockchain-hash">{{ claim[9][:50] }}...</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#claimDetails{{ claim[0] }}">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                        
+                        {% if claim[6] == 'approved' %}
+                        <button class="btn btn-success btn-sm">
+                            <i class="fas fa-money-bill-wave"></i> View Payment
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claim Details Modal -->
+        <div class="modal fade" id="claimDetails{{ claim[0] }}" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-info-circle"></i> Claim Details - #{{ claim[0] }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Claim Amount:</strong> ₹{{ "%.2f"|format(claim[2]) }}</p>
+                                <p><strong>Policy:</strong> {{ claim[7] }}</p>
+                                <p><strong>Status:</strong> 
+                                    <span class="badge bg-{{ 'warning' if claim[6] == 'pending' else 'success' if claim[6] == 'approved' else 'danger' }}">
+                                        {{ claim[6].title() }}
+                                    </span>
+                                </p>
+                                <p><strong>Submission Date:</strong> {{ claim[8] }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Documents Submitted:</strong></p>
+                                <ul class="list-unstyled">
+                                    {% if claim[3] %}
+                                    <li><i class="fas fa-image text-success"></i> Accident Pictures</li>
+                                    {% endif %}
+                                    {% if claim[4] %}
+                                    <li><i class="fas fa-file-contract text-success"></i> Policy Document</li>
+                                    {% endif %}
+                                    {% if claim[5] %}
+                                    <li><i class="fas fa-id-card text-success"></i> Aadhar Card</li>
+                                    {% endif %}
+                                    {% if claim[10] %}
+                                    <li><i class="fas fa-car text-success"></i> Vehicle RC</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        {% if claim[9] %}
+                        <hr>
+                        <h6>Blockchain Verification</h6>
+                        <p class="small font-monospace">{{ claim[9] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-file-medical fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Claims Submitted</h4>
+                    <p class="text-muted">You haven't submitted any insurance claims yet.</p>
+                    <a href="{{ url_for('my_policies') }}" class="btn btn-primary">
+                        <i class="fas fa-file-contract"></i> View My Policies
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

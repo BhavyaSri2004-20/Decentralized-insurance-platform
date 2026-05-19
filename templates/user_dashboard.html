@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="card-title mb-2">
+                                <i class="fas fa-tachometer-alt"></i> Welcome, {{ session.username }}!
+                            </h2>
+                            <p class="card-text mb-0">
+                                {% if session.role == 'user' %}
+                                    <i class="fas fa-user"></i> User Dashboard - Manage your policies and claims
+                                {% elif session.role == 'policy_provider' %}
+                                    <i class="fas fa-briefcase"></i> Policy Provider Dashboard - Manage your insurance policies
+                                {% elif session.role == 'voting_member' %}
+                                    <i class="fas fa-vote-yea"></i> Voting Member Dashboard - Review and vote on claims
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <i class="fas fa-user-circle fa-5x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4 class="fw-bold mb-3">
+                <i class="fas fa-bolt"></i> Quick Actions
+            </h4>
+        </div>
+    </div>
+
+    {% if session.role == 'user' %}
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-search text-primary fa-3x mb-3"></i>
+                    <h5 class="card-title">Browse Policies</h5>
+                    <p class="card-text">Explore available insurance policies and find the best coverage for you.</p>
+                    <a href="{{ url_for('policies') }}" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> View Policies
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-file-contract text-success fa-3x mb-3"></i>
+                    <h5 class="card-title">My Policies</h5>
+                    <p class="card-text">View and manage your purchased insurance policies.</p>
+                    <a href="{{ url_for('my_policies') }}" class="btn btn-success">
+                        <i class="fas fa-list"></i> My Policies
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-file-medical text-info fa-3x mb-3"></i>
+                    <h5 class="card-title">File a Claim</h5>
+                    <p class="card-text">Submit a new insurance claim with all required documents.</p>
+                    <a href="{{ url_for('my_policies') }}#file-claim" class="btn btn-info">
+                        <i class="fas fa-plus"></i> New Claim
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% elif session.role == 'policy_provider' %}
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-plus text-success fa-3x mb-3"></i>
+                    <h5 class="card-title">Add New Policy</h5>
+                    <p class="card-text">Create a new insurance policy with your terms and coverage details.</p>
+                    <a href="{{ url_for('add_policy') }}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Add Policy
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-briefcase text-primary fa-3x mb-3"></i>
+                    <h5 class="card-title">Manage Policies</h5>
+                    <p class="card-text">View and manage all your insurance policies and customer purchases.</p>
+                    <a href="{{ url_for('my_policies_provided') }}" class="btn btn-primary">
+                        <i class="fas fa-cog"></i> Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% elif session.role == 'voting_member' %}
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-vote-yea text-info fa-3x mb-3"></i>
+                    <h5 class="card-title">Review Claims</h5>
+                    <p class="card-text">Review pending claims and cast your vote to help the community.</p>
+                    <a href="{{ url_for('view_claims') }}" class="btn btn-info">
+                        <i class="fas fa-search"></i> View Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hover-card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

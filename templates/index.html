@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-shield-alt"></i> Decentralized Insurance Platform
+                </h1>
+                <p class="lead mb-4">
+                    Secure, transparent, and community-driven insurance solutions powered by blockchain technology.
+                    Join our decentralized insurance ecosystem and experience the future of insurance.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-user-plus"></i> Get Started
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-globe fa-10x opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="fw-bold">Why Choose Our Platform?</h2>
+                <p class="text-muted">Built with modern technology and community trust</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-link text-white fa-2x"></i>
+                        </div>
+                        <h5 class="card-title">Blockchain Security</h5>
+                        <p class="card-text">
+                            Every transaction is secured with SHA-256 blockchain technology, ensuring transparency and immutability.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-users text-white fa-2x"></i>
+                        </div>
+                        <h5 class="card-title">Community Driven</h5>
+                        <p class="card-text">
+                            Claims are reviewed and approved by our community of voting members for fair decisions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-shield-alt text-white fa-2x"></i>
+                        </div>
+                        <h5 class="card-title">Decentralized Control</h5>
+                        <p class="card-text">
+                            No central authority. Control is distributed among all stakeholders for true decentralization.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Types Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="fw-bold">Three Types of Users</h2>
+                <p class="text-muted">Join our ecosystem in the role that suits you best</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-user text-primary fa-3x mb-3"></i>
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">
+                            Purchase insurance policies, file claims, and manage your coverage with ease.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success"></i> Browse available policies</li>
+                            <li><i class="fas fa-check text-success"></i> Secure payment system</li>
+                            <li><i class="fas fa-check text-success"></i> File claims online</li>
+                            <li><i class="fas fa-check text-success"></i> Track claim status</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-briefcase text-success fa-3x mb-3"></i>
+                        <h5 class="card-title">Policy Providers</h5>
+                        <p class="card-text">
+                            Create and manage insurance policies, earn revenue, and serve customers.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-plus text-success"></i> Add new policies</li>
+                            <li><i class="fas fa-chart-line text-success"></i> Track revenue</li>
+                            <li><i class="fas fa-users text-success"></i> View policy holders</li>
+                            <li><i class="fas fa-gavel text-success"></i> Review claims</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-vote-yea text-info fa-3x mb-3"></i>
+                        <h5 class="card-title">Voting Members</h5>
+                        <p class="card-text">
+                            Help the community by reviewing claims and voting on their validity.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-search text-info"></i> Review claims</li>
+                            <li><i class="fas fa-vote-yea text-info"></i> Cast votes</li>
+                            <li><i class="fas fa-eye text-info"></i> View documentation</li>
+                            <li><i class="fas fa-balance-scale text-info"></i> Ensure fairness</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-4">Ready to Get Started?</h2>
+                <p class="lead mb-4">
+                    Join thousands of users who trust our decentralized insurance platform.
+                    Create your account today and experience the future of insurance.
+                </p>
+                <a href="{{ url_for('register') }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket"></i> Start Your Journey
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .min-vh-50 {
+        min-height: 50vh;
+    }
+    
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}View Claims - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-vote-yea text-info"></i> Pending Claims for Review
+                    </h2>
+                    <p class="text-muted mb-0">Review claims and cast your vote to help the community</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if claims %}
+    <div class="row g-4">
+        {% for claim in claims %}
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header 
+                    {% if (claim[13] or 0) >= 2 %}bg-success text-white
+                    {% else %}bg-warning text-dark{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-file-medical"></i> Claim #{{ claim[0] }} - {{ claim[11] }}
+                        </h5>
+                        <div>
+                            {% if (claim[13] or 0) >= 2 %}
+                            <span class="badge bg-light text-success">
+                                <i class="fas fa-check-circle"></i> Approved ({{ (claim[13] or 0) }}/3 votes)
+                            </span>
+                            {% else %}
+                            <span class="badge bg-light text-warning">
+                                <i class="fas fa-clock"></i> {{ (claim[13] or 0) }}/3 votes
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Claim Amount:</strong> ₹{{ "%.2f"|format(claim[2]) }}</p>
+                            <p><strong>User:</strong> {{ claim[12] }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Policy:</strong> {{ claim[11] }}</p>
+                            <p><strong>Submitted:</strong> {{ claim[10] or 'N/A' }}</p>
+                        </div>
+                    </div>
+
+                    {% if claim[14] == 0 %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Vote Required:</strong> This claim needs your review.
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <h6><i class="fas fa-paperclip"></i> Documents Submitted:</h6>
+                        <div class="row g-2">
+                            {% if claim[3] %}
+                            <div class="col-auto">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-image"></i> Accident Pictures
+                                </span>
+                            </div>
+                            {% endif %}
+                            {% if claim[4] %}
+                            <div class="col-auto">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-file-contract"></i> Policy Document
+                                </span>
+                            </div>
+                            {% endif %}
+                            {% if claim[5] %}
+                            <div class="col-auto">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-id-card"></i> Aadhar Card
+                                </span>
+                            </div>
+                            {% endif %}
+                            {% if claim[6] %}
+                            <div class="col-auto">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-car"></i> Vehicle RC
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if claim[14] == 0 %}
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('vote_claim', claim_id=claim[0], action='approve') }}"
+                           class="btn btn-success">
+                            <i class="fas fa-check"></i> Approve
+                        </a>
+                        <a href="{{ url_for('vote_claim', claim_id=claim[0], action='reject') }}"
+                           class="btn btn-danger">
+                            <i class="fas fa-times"></i> Reject
+                        </a>
+                        <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#claimDocuments{{ claim[0] }}">
+                            <i class="fas fa-eye"></i> View Documents
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>Your Vote:</strong> You have voted
+                        <small class="text-muted">({{ (claim[13] or 0) }} approvals received)</small>
+                    </div>
+                    {% endif %}
+
+                    {% if (claim[13] or 0) >= 2 %}
+                    <div class="mt-3">
+                        <small class="text-muted">Blockchain Hash:</small>
+                        <p class="small font-monospace blockchain-hash">{{ (claim[8] or '')[:50] if claim[8] else 'N/A' }}...</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Claim Documents Modal -->
+        <div class="modal fade" id="claimDocuments{{ claim[0] }}" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-eye"></i> Claim Documents - #{{ claim[0] }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Claim Amount:</strong> ₹{{ "%.2f"|format(claim[2]) }}</p>
+                        <p><strong>User:</strong> {{ claim[12] }}</p>
+                        <p><strong>Policy:</strong> {{ claim[11] }}</p>
+                        
+                        <hr>
+                        <h6>Submitted Documents:</h6>
+                        <div class="row g-3">
+                            {% if claim[3] %}
+                            <div class="col-md-6">
+                                <div class="border rounded p-3">
+                                    <h6><i class="fas fa-image text-primary"></i> Accident Pictures</h6>
+                                    <p class="small text-muted">File: {{ claim[3] }}</p>
+                                    <a href="{{ url_for('download_file', filename=claim[3]) }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if claim[4] %}
+                            <div class="col-md-6">
+                                <div class="border rounded p-3">
+                                    <h6><i class="fas fa-file-contract text-success"></i> Policy Document</h6>
+                                    <p class="small text-muted">File: {{ claim[4] }}</p>
+                                    <a href="{{ url_for('download_file', filename=claim[4]) }}" class="btn btn-outline-success btn-sm" target="_blank">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if claim[5] %}
+                            <div class="col-md-6">
+                                <div class="border rounded p-3">
+                                    <h6><i class="fas fa-id-card text-info"></i> Aadhar Card</h6>
+                                    <p class="small text-muted">File: {{ claim[5] }}</p>
+                                    <a href="{{ url_for('download_file', filename=claim[5]) }}" class="btn btn-outline-info btn-sm" target="_blank">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if claim[6] %}
+                            <div class="col-md-6">
+                                <div class="border rounded p-3">
+                                    <h6><i class="fas fa-car text-warning"></i> Vehicle RC</h6>
+                                    <p class="small text-muted">File: {{ claim[6] }}</p>
+                                    <a href="{{ url_for('download_file', filename=claim[6]) }}" class="btn btn-outline-warning btn-sm" target="_blank">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-vote-yea fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Claims to Review</h4>
+                    <p class="text-muted">There are no pending claims requiring your vote at the moment.</p>
+                    <small class="text-muted">New claims will appear here when users file them.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

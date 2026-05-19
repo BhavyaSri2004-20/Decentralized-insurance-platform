@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Add Policy - Decentralized Insurance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-plus text-success"></i> Add New Insurance Policy
+                    </h2>
+                    <p class="text-muted mb-0">Create a new insurance policy with your terms and coverage</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-file-contract"></i> Policy Details
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_policy') }}">
+                        <div class="mb-3">
+                            <label for="policy_name" class="form-label">
+                                <i class="fas fa-tag"></i> Policy Name *
+                            </label>
+                            <input type="text" class="form-control" id="policy_name" name="policy_name" 
+                                   required placeholder="e.g., Comprehensive Vehicle Insurance">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="policy_description" class="form-label">
+                                <i class="fas fa-align-left"></i> Policy Description *
+                            </label>
+                            <textarea class="form-control" id="policy_description" name="policy_description" 
+                                      rows="4" required 
+                                      placeholder="Describe the coverage, terms, and benefits of this policy..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="policy_cost" class="form-label">
+                                <i class="fas fa-rupee-sign"></i> Policy Cost (₹) *
+                            </label>
+                            <input type="number" class="form-control" id="policy_cost" name="policy_cost" 
+                                   step="0.01" min="0" required placeholder="e.g., 5000.00">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="required_documents" class="form-label">
+                                <i class="fas fa-list"></i> Required Documents *
+                            </label>
+                            <textarea class="form-control" id="required_documents" name="required_documents" 
+                                      rows="3" required 
+                                      placeholder="List the documents required for claims: Aadhar card, Policy document, Accident pictures, Vehicle RC, etc."></textarea>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> <strong>Note:</strong> 
+                            Once you create this policy, users will be able to purchase it. 
+                            Make sure to provide accurate information about coverage and terms.
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-plus"></i> Create Policy
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
